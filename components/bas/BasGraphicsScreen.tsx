@@ -1,7 +1,7 @@
 import { AHU_2_BAS_SECTIONS, BAS_GRAPHICS_TITLE } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
-import { BasPointSectionBlock } from "./BasPointSection";
+import { BasPointList } from "./BasPointList";
 
 interface BasGraphicsScreenProps {
   className?: string;
@@ -24,10 +24,8 @@ export function BasGraphicsScreen({ className }: BasGraphicsScreenProps) {
         </p>
       </header>
 
-      <div className="grid flex-1 gap-4 overflow-y-auto p-5 md:grid-cols-2">
-        {AHU_2_BAS_SECTIONS.map((section) => (
-          <BasPointSectionBlock key={section.id} section={section} />
-        ))}
+      <div className="flex-1 overflow-y-auto p-5">
+        <BasPointList sections={AHU_2_BAS_SECTIONS} />
       </div>
     </div>
   );

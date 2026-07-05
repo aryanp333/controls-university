@@ -1,10 +1,11 @@
-import { BAS_SYSTEM_ALERT } from "@/lib/constants";
+import { AHU_ECONOMIZER_ALARM } from "@/lib/scenarios";
 import { cn } from "@/lib/utils";
 
 interface BasSummaryPanelProps {
   className?: string;
 }
 
+/** @deprecated Use BasSidePanel with AlarmPanel instead. */
 export function BasSummaryPanel({ className }: BasSummaryPanelProps) {
   return (
     <aside
@@ -19,18 +20,17 @@ export function BasSummaryPanel({ className }: BasSummaryPanelProps) {
         </h2>
       </div>
       <div className="flex flex-1 flex-col gap-5 overflow-y-auto p-5">
-        <div className="rounded-md border border-amber-500/30 bg-amber-500/10 px-4 py-3">
-          <p className="text-xs font-semibold uppercase tracking-wider text-amber-400">
+        <div className="rounded-md border border-red-500/30 bg-red-500/10 px-4 py-3">
+          <p className="text-xs font-semibold uppercase tracking-wider text-red-400">
             Active Alarm
           </p>
-          <p className="mt-2 text-sm leading-relaxed text-foreground">
-            {BAS_SYSTEM_ALERT}
+          <p className="mt-2 text-sm font-semibold text-foreground">
+            {AHU_ECONOMIZER_ALARM.name}
+          </p>
+          <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+            {AHU_ECONOMIZER_ALARM.description}
           </p>
         </div>
-        <p className="text-sm leading-relaxed text-muted-foreground">
-          Review damper command vs. feedback values. Compare with physical
-          inspection findings on the AHU view.
-        </p>
       </div>
     </aside>
   );

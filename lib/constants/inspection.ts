@@ -11,7 +11,7 @@ export const AHU_INSPECTION_COMPONENTS: EquipmentComponentInspection[] = [
     description:
       "Modulates outside air intake to the mixing chamber based on economizer and minimum OA setpoints.",
     observation:
-      "Command position is changing but the damper appears stuck.",
+      "Actuator is energized. Damper blades remain in the fully closed position.",
   },
   {
     id: "return-air-damper",
@@ -43,7 +43,8 @@ export const AHU_INSPECTION_COMPONENTS: EquipmentComponentInspection[] = [
     status: "Normal",
     description:
       "Measures temperature of air entering the fan section after OA and RA mixing.",
-    observation: "Sensor reading appears stable and within expected range.",
+    observation:
+      "Sensor reading is stable. Temperature matches outside air conditions.",
   },
   {
     id: "supply-air-temp-sensor",

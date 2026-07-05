@@ -1,9 +1,10 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-import { BasGraphicsScreen, BasSummaryPanel } from "@/components/bas";
+import { BasGraphicsScreen, BasSidePanel } from "@/components/bas";
 import { AhuDiagram } from "@/components/equipment";
+import { useScenarioState } from "@/hooks";
 import {
   AHU_INSPECTION_COMPONENTS,
   CURRENT_SCENARIO_TITLE,
@@ -17,24 +18,42 @@ import { TrainingTopNav } from "./TrainingTopNav";
 import { ViewToggle } from "./ViewToggle";
 
 export function InspectionWorkspace() {
+  const {
+    state,
+    inspectComponent,
+    openBasTablet,
+    reviewBasData,
+    diagnosisComplete,
+  } = useScenarioState();
+
   const [selectedId, setSelectedId] = useState<EquipmentComponentId | null>(
     null,
   );
   const [activeView, setActiveView] = useState<BasViewMode>("ahu");
-  const [basTabletOpened, setBasTabletOpened] = useState(false);
 
   const selectedComponent = useMemo(
     () => AHU_INSPECTION_COMPONENTS.find((item) => item.id === selectedId) ?? null,
     [selectedId],
   );
 
+  useEffect(() => {
+    if (activeView === "bas" && state.basTabletOpened) {
+      reviewBasData();
+    }
+  }, [activeView, reviewBasData, state.basTabletOpened]);
+
+  function handleSelectComponent(id: EquipmentComponentId) {
+    setSelectedId(id);
+    inspectComponent(id);
+  }
+
   function handleOpenBasTablet() {
-    setBasTabletOpened(true);
+    openBasTablet();
     setActiveView("bas");
   }
 
   function handleViewChange(view: BasViewMode) {
-    if (view === "bas" && !basTabletOpened) {
+    if (view === "bas" && !state.basTabletOpened) {
       return;
     }
     setActiveView(view);
@@ -46,7 +65,7 @@ export function InspectionWorkspace() {
 
       <ViewToggle
         activeView={activeView}
-        basUnlocked={basTabletOpened}
+        basUnlocked={state.basTabletOpened}
         onViewChange={handleViewChange}
       />
 
@@ -55,7 +74,7 @@ export function InspectionWorkspace() {
           {activeView === "ahu" ? (
             <AhuDiagram
               selectedId={selectedId}
-              onSelect={setSelectedId}
+              onSelect={handleSelectComponent}
               className="h-full"
             />
           ) : (
@@ -70,13 +89,14 @@ export function InspectionWorkspace() {
               className="h-full"
             />
           ) : (
-            <BasSummaryPanel className="h-full" />
+            <BasSidePanel className="h-full" />
           )}
         </div>
       </div>
 
       <InspectionToolbar
-        basTabletOpened={basTabletOpened}
+        basTabletOpened={state.basTabletOpened}
+        diagnosisComplete={diagnosisComplete}
         activeView={activeView}
         onOpenBasTablet={handleOpenBasTablet}
         onViewChange={handleViewChange}

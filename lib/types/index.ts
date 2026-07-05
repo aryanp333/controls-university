@@ -19,6 +19,15 @@ export type {
 } from "./scenario";
 export type { SimulationAction, SimulationState } from "./simulation";
 export type {
+  ClueId,
+  DiagnosisId,
+  DiagnosisOption,
+  ScenarioClue,
+  ScenarioConfig,
+  ScenarioProgressAction,
+  ScenarioProgressState,
+} from "./scenario-progress";
+export type {
   EquipmentComponentId,
   EquipmentComponentInspection,
 } from "./inspection";

@@ -8,10 +8,10 @@ export const AHU_2_BAS_SECTIONS: BasPointSection[] = [
     title: "Temperatures",
     category: "temperature",
     points: [
-      { id: "oat", label: "Outside Air Temp", value: "58.2", category: "temperature" },
-      { id: "mat", label: "Mixed Air Temp", value: "62.4", category: "temperature" },
-      { id: "sat", label: "Supply Air Temp", value: "71.8", category: "temperature" },
-      { id: "sat-sp", label: "Supply Air Setpoint", value: "55.0", category: "temperature" },
+      { id: "oat", label: "Outside Air Temperature", value: "78", category: "temperature" },
+      { id: "mat", label: "Mixed Air Temperature", value: "78", category: "temperature" },
+      { id: "sat", label: "Supply Air Temperature", value: "77", category: "temperature" },
+      { id: "rat", label: "Return Air Temperature", value: "75", category: "temperature" },
     ],
   },
   {
@@ -19,9 +19,8 @@ export const AHU_2_BAS_SECTIONS: BasPointSection[] = [
     title: "Damper %",
     category: "damper",
     points: [
-      { id: "oad-cmd", label: "OA Damper Command", value: "45", category: "damper" },
-      { id: "oad-pos", label: "OA Damper Position", value: "15", category: "damper" },
-      { id: "rad-pos", label: "RA Damper Position", value: "72", category: "damper" },
+      { id: "oad-cmd", label: "Outside Air Damper Command", value: "100", category: "damper" },
+      { id: "oad-pos", label: "Outside Air Damper Position", value: "0", category: "damper" },
     ],
   },
   {
@@ -29,22 +28,16 @@ export const AHU_2_BAS_SECTIONS: BasPointSection[] = [
     title: "Fan Status",
     category: "fan",
     points: [
-      { id: "fan-cmd", label: "Supply Fan Command", value: "ON", category: "fan" },
-      { id: "fan-sts", label: "Supply Fan Status", value: "Running", category: "fan" },
-      { id: "fan-spd", label: "Fan Speed", value: "68", category: "fan" },
-    ],
-  },
-  {
-    id: "points",
-    title: "Points",
-    category: "point",
-    points: [
-      { id: "econ-en", label: "Economizer Enable", value: "ON", category: "point" },
-      { id: "occ-mode", label: "Occupancy Mode", value: "Occupied", category: "point" },
-      { id: "unit-sts", label: "Unit Status", value: "Alarm", category: "point" },
+      { id: "fan-sts", label: "Supply Fan", value: "Running", category: "fan" },
     ],
   },
 ];
 
-export const BAS_SYSTEM_ALERT =
-  "OA damper command and feedback do not match. Investigate damper actuator and linkage.";
+export const AHU_2_EQUIPMENT_STATUS = [
+  { label: "Supply Fan", value: "Running" },
+  { label: "OA Damper Command", value: "100%" },
+  { label: "OA Damper Position", value: "0%" },
+  { label: "Outside Air Temp", value: "78°F" },
+  { label: "Mixed Air Temp", value: "78°F" },
+  { label: "Supply Air Temp", value: "77°F" },
+] as const;

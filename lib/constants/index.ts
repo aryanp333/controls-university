@@ -13,8 +13,8 @@ export {
 } from "./inspection";
 export {
   AHU_2_BAS_SECTIONS,
+  AHU_2_EQUIPMENT_STATUS,
   BAS_GRAPHICS_TITLE,
-  BAS_SYSTEM_ALERT,
 } from "./bas";
 export {
   SCENARIO_CATALOG,

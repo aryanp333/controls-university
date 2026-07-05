@@ -1,1 +1,1 @@
-/** React hooks for simulation and scenario state — implemented in Phase 1+. */
+export { useScenarioState } from "./use-scenario-state";

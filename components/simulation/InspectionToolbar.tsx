@@ -7,6 +7,7 @@ import { cn } from "@/lib/utils";
 
 interface InspectionToolbarProps {
   basTabletOpened: boolean;
+  diagnosisComplete: boolean;
   activeView: BasViewMode;
   onOpenBasTablet: () => void;
   onViewChange: (view: BasViewMode) => void;
@@ -15,6 +16,7 @@ interface InspectionToolbarProps {
 
 export function InspectionToolbar({
   basTabletOpened,
+  diagnosisComplete,
   activeView,
   onOpenBasTablet,
   onViewChange,
@@ -50,7 +52,7 @@ export function InspectionToolbar({
           render={<Link href={ROUTES.workOrder}>Return to Work Order</Link>}
         />
       </div>
-      <Button size="sm" disabled={!basTabletOpened}>
+      <Button size="sm" disabled={!basTabletOpened || !diagnosisComplete}>
         Continue
       </Button>
     </footer>
