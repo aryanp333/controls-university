@@ -1,1 +1,5 @@
-/** Training simulator shell components (objectives, hints, scenario header). */
+export { BasTabletOverlay } from "./BasTabletOverlay";
+export { InspectionPanel } from "./InspectionPanel";
+export { InspectionToolbar } from "./InspectionToolbar";
+export { InspectionWorkspace } from "./InspectionWorkspace";
+export { TrainingTopNav } from "./TrainingTopNav";

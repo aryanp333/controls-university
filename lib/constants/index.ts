@@ -7,6 +7,11 @@ export {
 } from "./landing";
 export { ROUTES } from "./routes";
 export {
+  AHU_INSPECTION_COMPONENTS,
+  CURRENT_SCENARIO_TITLE,
+  INSPECTION_PANEL_EMPTY_MESSAGE,
+} from "./inspection";
+export {
   SCENARIO_CATALOG,
   SCENARIO_START_ROUTES,
   SCENARIOS_PAGE,

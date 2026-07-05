@@ -19,6 +19,10 @@ export type {
 } from "./scenario";
 export type { SimulationAction, SimulationState } from "./simulation";
 export type {
+  EquipmentComponentId,
+  EquipmentComponentInspection,
+} from "./inspection";
+export type {
   WorkOrder,
   WorkOrderObjective,
   WorkOrderPriority,

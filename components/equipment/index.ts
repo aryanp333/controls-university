@@ -1,1 +1,2 @@
-/** Visual equipment glyphs bound to simulation points. */
+export { AhuDiagram } from "./AhuDiagram";
+export { EquipmentHotspot } from "./EquipmentHotspot";
