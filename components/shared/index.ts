@@ -1,1 +1,5 @@
-/** Cross-domain reusable components not tied to BAS, equipment, or simulation. */
+export { AboutSection } from "./AboutSection";
+export { FeatureCard } from "./FeatureCard";
+export { FeaturesSection } from "./FeaturesSection";
+export { HeroSection } from "./HeroSection";
+export { Logo } from "./Logo";
