@@ -18,3 +18,9 @@ export type {
   ScenarioSummary,
 } from "./scenario";
 export type { SimulationAction, SimulationState } from "./simulation";
+export type {
+  WorkOrder,
+  WorkOrderObjective,
+  WorkOrderPriority,
+  WorkOrderStatus,
+} from "./work-order";

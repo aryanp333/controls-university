@@ -1,7 +1,9 @@
 import type { LucideIcon } from "lucide-react";
 import { Clock } from "lucide-react";
+import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
+import { SCENARIO_START_ROUTES } from "@/lib/constants";
 import type { ScenarioCatalogItem } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -48,7 +50,15 @@ export function ScenarioCard({ scenario, icon: Icon, className }: ScenarioCardPr
 
       <div className="mt-6">
         {isActive ? (
-          <Button className="w-full">Start Scenario</Button>
+          <Button
+            className="w-full"
+            nativeButton={false}
+            render={
+              <Link href={SCENARIO_START_ROUTES[scenario.id] ?? "#"}>
+                Start Scenario
+              </Link>
+            }
+          />
         ) : (
           <Button variant="secondary" className="w-full" disabled>
             Coming Soon

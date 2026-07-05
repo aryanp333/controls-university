@@ -1,5 +1,11 @@
 import type { ScenarioCatalogItem } from "@/lib/types";
 
+import { ROUTES } from "./routes";
+
+export const SCENARIO_START_ROUTES: Partial<Record<string, string>> = {
+  "ahu-economizer-failure": ROUTES.workOrder,
+};
+
 export const SCENARIOS_PAGE = {
   title: "Training Scenarios",
   subtitle: "Select a Building Automation System training scenario.",
