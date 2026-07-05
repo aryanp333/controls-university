@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 
-import { BasGraphicsScreen, BasSidePanel } from "@/components/bas";
+import { BasSidePanel } from "@/components/bas";
 import { AhuDiagram } from "@/components/equipment";
 import { useScenarioState } from "@/hooks";
 import {
@@ -12,8 +12,10 @@ import {
 } from "@/lib/constants";
 import type { BasViewMode, EquipmentComponentId } from "@/lib/types";
 
+import { BasGraphicsWorkspace } from "./BasGraphicsWorkspace";
 import { InspectionPanel } from "./InspectionPanel";
 import { InspectionToolbar } from "./InspectionToolbar";
+import { SimulationProgressBanner } from "./SimulationProgressBanner";
 import { TrainingTopNav } from "./TrainingTopNav";
 import { ViewToggle } from "./ViewToggle";
 
@@ -23,7 +25,10 @@ export function InspectionWorkspace() {
     inspectComponent,
     openBasTablet,
     reviewBasData,
-    diagnosisComplete,
+    isRepaired,
+    oadDamperVisualPercent,
+    repairInProgress,
+    repairProgressLabel,
   } = useScenarioState();
 
   const [selectedId, setSelectedId] = useState<EquipmentComponentId | null>(
@@ -70,15 +75,23 @@ export function InspectionWorkspace() {
       />
 
       <div className="flex min-h-0 flex-1">
-        <div className="w-[70%] min-w-0 p-4">
+        <div className="flex w-[70%] min-w-0 flex-col gap-3 p-4">
           {activeView === "ahu" ? (
-            <AhuDiagram
-              selectedId={selectedId}
-              onSelect={handleSelectComponent}
-              className="h-full"
-            />
+            <>
+              <SimulationProgressBanner
+                label={repairProgressLabel}
+                isActive={repairInProgress}
+              />
+              <AhuDiagram
+                selectedId={selectedId}
+                onSelect={handleSelectComponent}
+                oadDamperOpenPercent={oadDamperVisualPercent}
+                isRepairing={repairInProgress}
+                className="min-h-0 flex-1"
+              />
+            </>
           ) : (
-            <BasGraphicsScreen className="h-full" />
+            <BasGraphicsWorkspace className="min-h-0 flex-1" />
           )}
         </div>
         <div className="w-[30%] min-w-0">
@@ -96,7 +109,7 @@ export function InspectionWorkspace() {
 
       <InspectionToolbar
         basTabletOpened={state.basTabletOpened}
-        diagnosisComplete={diagnosisComplete}
+        isRepaired={isRepaired}
         activeView={activeView}
         onOpenBasTablet={handleOpenBasTablet}
         onViewChange={handleViewChange}

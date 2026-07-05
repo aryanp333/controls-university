@@ -3,10 +3,10 @@ import { cn } from "@/lib/utils";
 
 interface BasPointListProps {
   sections: BasPointSection[];
+  highlightedPointIds?: Set<string>;
+  isUpdating?: boolean;
   className?: string;
 }
-
-const MISMATCH_IDS = new Set(["oad-cmd", "oad-pos", "mat", "oat"]);
 
 function formatPointValue(
   pointId: string,
@@ -22,7 +22,12 @@ function formatPointValue(
   return value;
 }
 
-export function BasPointList({ sections, className }: BasPointListProps) {
+export function BasPointList({
+  sections,
+  highlightedPointIds = new Set(),
+  isUpdating = false,
+  className,
+}: BasPointListProps) {
   return (
     <div className={cn("flex flex-col gap-4", className)}>
       {sections.map((section) => (
@@ -46,10 +51,11 @@ export function BasPointList({ sections, className }: BasPointListProps) {
                 </span>
                 <span
                   className={cn(
-                    "font-mono text-sm font-medium tabular-nums",
-                    MISMATCH_IDS.has(point.id)
+                    "font-mono text-sm font-medium tabular-nums transition-colors duration-300",
+                    highlightedPointIds.has(point.id)
                       ? "text-amber-400"
                       : "text-foreground",
+                    isUpdating && "animate-pulse",
                   )}
                 >
                   {formatPointValue(point.id, point.value, section.category)}

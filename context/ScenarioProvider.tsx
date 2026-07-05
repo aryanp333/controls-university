@@ -8,12 +8,22 @@ import {
   useReducer,
 } from "react";
 
+import { useRepairTimer } from "@/hooks/use-repair-timer";
 import {
+  canStartRepair,
   canSubmitDiagnosis,
   INITIAL_SCENARIO_PROGRESS,
   isDiagnosisCorrect,
+  isRepairInProgress,
   scenarioProgressReducer,
 } from "@/lib/simulation/scenario-reducer";
+import {
+  selectBasPointSections,
+  selectEquipmentStatusItems,
+  selectHighlightedPointIds,
+  selectOadDamperVisualPercent,
+  selectRepairProgressLabel,
+} from "@/lib/simulation/runtime-selectors";
 import { AHU_ECONOMIZER_SCENARIO_CONFIG } from "@/lib/scenarios";
 import type {
   DiagnosisId,
@@ -25,12 +35,21 @@ import type { EquipmentComponentId } from "@/lib/types/inspection";
 interface ScenarioContextValue {
   state: ScenarioProgressState;
   config: ScenarioConfig;
+  basPointSections: ReturnType<typeof selectBasPointSections>;
+  equipmentStatusItems: ReturnType<typeof selectEquipmentStatusItems>;
+  highlightedPointIds: Set<string>;
+  oadDamperVisualPercent: number;
+  repairProgressLabel: string | null;
   inspectComponent: (componentId: EquipmentComponentId) => void;
   openBasTablet: () => void;
   reviewBasData: () => void;
   submitDiagnosis: (diagnosisId: DiagnosisId) => boolean;
+  startRepair: () => void;
   canDiagnose: boolean;
   diagnosisComplete: boolean;
+  canRepair: boolean;
+  repairInProgress: boolean;
+  isRepaired: boolean;
 }
 
 const ScenarioContext = createContext<ScenarioContextValue | null>(null);
@@ -73,21 +92,57 @@ export function ScenarioProvider({
     [config, state],
   );
 
+  const startRepair = useCallback(() => {
+    dispatch({ type: "start-repair" });
+  }, []);
+
+  const advanceRepair = useCallback(() => {
+    dispatch({ type: "advance-repair" });
+  }, []);
+
+  const completeRepair = useCallback(() => {
+    dispatch({ type: "complete-repair" });
+  }, []);
+
+  useRepairTimer({
+    repairPhase: state.simulation.repairPhase,
+    repairStepIndex: state.simulation.repairStepIndex,
+    onAdvance: advanceRepair,
+    onComplete: completeRepair,
+  });
+
   const value = useMemo((): ScenarioContextValue => {
-    const canDiagnose = canSubmitDiagnosis(state, config);
-    const diagnosisComplete = isDiagnosisCorrect(state, config);
+    const { simulation } = state;
 
     return {
       state,
       config,
+      basPointSections: selectBasPointSections(simulation),
+      equipmentStatusItems: selectEquipmentStatusItems(simulation),
+      highlightedPointIds: selectHighlightedPointIds(simulation),
+      oadDamperVisualPercent: selectOadDamperVisualPercent(simulation),
+      repairProgressLabel: selectRepairProgressLabel(simulation),
       inspectComponent,
       openBasTablet,
       reviewBasData,
       submitDiagnosis,
-      canDiagnose,
-      diagnosisComplete,
+      startRepair,
+      canDiagnose: canSubmitDiagnosis(state, config),
+      diagnosisComplete: isDiagnosisCorrect(state, config),
+      canRepair: canStartRepair(state, config),
+      repairInProgress: isRepairInProgress(state),
+      isRepaired: state.isRepaired,
     };
-  }, [config, inspectComponent, openBasTablet, reviewBasData, state, submitDiagnosis]);
+  }, [
+    advanceRepair,
+    config,
+    inspectComponent,
+    openBasTablet,
+    reviewBasData,
+    startRepair,
+    state,
+    submitDiagnosis,
+  ]);
 
   return (
     <ScenarioContext.Provider value={value}>{children}</ScenarioContext.Provider>

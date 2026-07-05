@@ -1,4 +1,5 @@
 import type { EquipmentComponentId } from "./inspection";
+import type { SimulationRuntime } from "./simulation-runtime";
 
 export type ClueId = string;
 
@@ -21,6 +22,7 @@ export interface ScenarioProgressState {
   discoveredClues: ClueId[];
   completedDiagnosis: DiagnosisId | null;
   isRepaired: boolean;
+  simulation: SimulationRuntime;
 }
 
 export type ScenarioProgressAction =
@@ -28,6 +30,9 @@ export type ScenarioProgressAction =
   | { type: "open-bas-tablet" }
   | { type: "review-bas-data" }
   | { type: "submit-diagnosis"; diagnosisId: DiagnosisId }
+  | { type: "start-repair" }
+  | { type: "advance-repair" }
+  | { type: "complete-repair" }
   | { type: "reset" };
 
 export interface ScenarioConfig {

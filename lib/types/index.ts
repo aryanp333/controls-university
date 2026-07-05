@@ -19,6 +19,12 @@ export type {
 } from "./scenario";
 export type { SimulationAction, SimulationState } from "./simulation";
 export type {
+  RepairPhase,
+  RepairStepSnapshot,
+  SimulationPointValues,
+  SimulationRuntime,
+} from "./simulation-runtime";
+export type {
   ClueId,
   DiagnosisId,
   DiagnosisOption,

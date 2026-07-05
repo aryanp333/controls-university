@@ -34,7 +34,7 @@ export function DiagnosisPanel({ className }: DiagnosisPanelProps) {
     const isCorrect = submitDiagnosis(selectedId);
     setAttemptMessage(
       isCorrect
-        ? "Correct diagnosis recorded. Repair steps will be available in the next phase."
+        ? "Correct diagnosis recorded. Use the Repair panel to restore operation."
         : "That diagnosis does not match the collected evidence. Review your clues and BAS data.",
     );
   }
@@ -130,8 +130,8 @@ export function DiagnosisPanel({ className }: DiagnosisPanelProps) {
               Diagnosis Complete
             </p>
             <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
-              Root cause identified: Outside Air Damper Stuck. Repair workflow
-              coming in the next phase.
+              Root cause identified: Outside Air Damper Stuck. Proceed with
+              repair below.
             </p>
           </div>
         ) : null}

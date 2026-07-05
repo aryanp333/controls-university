@@ -4,10 +4,13 @@ import type { EquipmentComponentId } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 import { EquipmentHotspot } from "./EquipmentHotspot";
+import { OutsideAirDamperVisual } from "./OutsideAirDamperVisual";
 
 interface AhuDiagramProps {
   selectedId: EquipmentComponentId | null;
   onSelect: (id: EquipmentComponentId) => void;
+  oadDamperOpenPercent?: number;
+  isRepairing?: boolean;
   className?: string;
 }
 
@@ -37,6 +40,8 @@ const HOTSPOTS: {
 export function AhuDiagram({
   selectedId,
   onSelect,
+  oadDamperOpenPercent = 0,
+  isRepairing = false,
   className,
 }: AhuDiagramProps) {
   return (
@@ -159,7 +164,7 @@ export function AhuDiagram({
           <line x1={325} y1={178} x2={325} y2={260} className="stroke-border/80" strokeWidth={1} />
           <line x1={340} y1={178} x2={340} y2={260} className="stroke-border/80" strokeWidth={1} />
 
-          {HOTSPOTS.map((hotspot) => (
+          {HOTSPOTS.filter((hotspot) => hotspot.id !== "outside-air-damper").map((hotspot) => (
             <EquipmentHotspot
               key={hotspot.id}
               {...hotspot}
@@ -167,6 +172,21 @@ export function AhuDiagram({
               onSelect={(id) => onSelect(id as EquipmentComponentId)}
             />
           ))}
+
+          <OutsideAirDamperVisual
+            openPercent={oadDamperOpenPercent}
+            isRepairing={isRepairing}
+          />
+          <EquipmentHotspot
+            id="outside-air-damper"
+            label="OA Damper"
+            x={48}
+            y={120}
+            width={56}
+            height={100}
+            isSelected={selectedId === "outside-air-damper"}
+            onSelect={(id) => onSelect(id as EquipmentComponentId)}
+          />
         </svg>
       </div>
     </div>

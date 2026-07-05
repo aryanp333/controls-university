@@ -1,8 +1,8 @@
-import { cn } from "@/lib/utils";
-
 import { AlarmPanel } from "./AlarmPanel";
 import { DiagnosisPanel } from "./DiagnosisPanel";
 import { EquipmentStatus } from "./EquipmentStatus";
+import { RepairPanel } from "@/components/simulation/RepairPanel";
+import { cn } from "@/lib/utils";
 
 interface BasSidePanelProps {
   className?: string;
@@ -18,7 +18,8 @@ export function BasSidePanel({ className }: BasSidePanelProps) {
     >
       <AlarmPanel />
       <EquipmentStatus />
-      <DiagnosisPanel className="flex-1" />
+      <DiagnosisPanel />
+      <RepairPanel />
     </aside>
   );
 }

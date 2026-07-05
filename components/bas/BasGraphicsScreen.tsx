@@ -1,4 +1,7 @@
-import { AHU_2_BAS_SECTIONS, BAS_GRAPHICS_TITLE } from "@/lib/constants";
+"use client";
+
+import { BAS_GRAPHICS_TITLE } from "@/lib/constants";
+import { useScenarioState } from "@/hooks";
 import { cn } from "@/lib/utils";
 
 import { BasPointList } from "./BasPointList";
@@ -8,6 +11,9 @@ interface BasGraphicsScreenProps {
 }
 
 export function BasGraphicsScreen({ className }: BasGraphicsScreenProps) {
+  const { basPointSections, highlightedPointIds, repairInProgress } =
+    useScenarioState();
+
   return (
     <div
       className={cn(
@@ -25,7 +31,11 @@ export function BasGraphicsScreen({ className }: BasGraphicsScreenProps) {
       </header>
 
       <div className="flex-1 overflow-y-auto p-5">
-        <BasPointList sections={AHU_2_BAS_SECTIONS} />
+        <BasPointList
+          sections={basPointSections}
+          highlightedPointIds={highlightedPointIds}
+          isUpdating={repairInProgress}
+        />
       </div>
     </div>
   );

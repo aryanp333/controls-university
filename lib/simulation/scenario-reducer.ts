@@ -5,12 +5,20 @@ import type {
   ScenarioProgressState,
 } from "@/lib/types/scenario-progress";
 
+import {
+  applyRepairStep,
+  createFaultRuntime,
+  getRepairStep,
+  isRepairSequenceComplete,
+} from "./repair-sequence";
+
 export const INITIAL_SCENARIO_PROGRESS: ScenarioProgressState = {
   inspectedComponents: [],
   basTabletOpened: false,
   discoveredClues: [],
   completedDiagnosis: null,
   isRepaired: false,
+  simulation: createFaultRuntime(),
 };
 
 function addClue(clues: string[], clueId: string): string[] {
@@ -76,6 +84,57 @@ export function scenarioProgressReducer(
         ...state,
         completedDiagnosis: action.diagnosisId,
       };
+    case "start-repair": {
+      if (!isDiagnosisCorrect(state, config) || state.isRepaired) {
+        return state;
+      }
+
+      const firstStep = getRepairStep(0);
+      if (!firstStep) {
+        return state;
+      }
+
+      return {
+        ...state,
+        simulation: applyRepairStep(state.simulation, firstStep, 0),
+      };
+    }
+    case "advance-repair": {
+      if (state.simulation.repairPhase !== "repairing") {
+        return state;
+      }
+
+      const nextIndex = state.simulation.repairStepIndex + 1;
+      const nextStep = getRepairStep(nextIndex);
+
+      if (!nextStep) {
+        return {
+          ...state,
+          isRepaired: true,
+          simulation: {
+            ...state.simulation,
+            repairPhase: "complete",
+          },
+        };
+      }
+
+      const simulation = applyRepairStep(state.simulation, nextStep, nextIndex);
+
+      return {
+        ...state,
+        isRepaired: simulation.repairPhase === "complete",
+        simulation,
+      };
+    }
+    case "complete-repair":
+      return {
+        ...state,
+        isRepaired: true,
+        simulation: {
+          ...state.simulation,
+          repairPhase: "complete",
+        },
+      };
     case "reset":
       return INITIAL_SCENARIO_PROGRESS;
     default:
@@ -97,4 +156,15 @@ export function isDiagnosisCorrect(
   config: ScenarioConfig,
 ): boolean {
   return state.completedDiagnosis === config.correctDiagnosisId;
+}
+
+export function canStartRepair(
+  state: ScenarioProgressState,
+  config: ScenarioConfig,
+): boolean {
+  return isDiagnosisCorrect(state, config) && !state.isRepaired;
+}
+
+export function isRepairInProgress(state: ScenarioProgressState): boolean {
+  return state.simulation.repairPhase === "repairing";
 }
