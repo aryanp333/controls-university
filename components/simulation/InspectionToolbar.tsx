@@ -2,17 +2,22 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { ROUTES } from "@/lib/constants";
+import type { BasViewMode } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
 interface InspectionToolbarProps {
   basTabletOpened: boolean;
+  activeView: BasViewMode;
   onOpenBasTablet: () => void;
+  onViewChange: (view: BasViewMode) => void;
   className?: string;
 }
 
 export function InspectionToolbar({
   basTabletOpened,
+  activeView,
   onOpenBasTablet,
+  onViewChange,
   className,
 }: InspectionToolbarProps) {
   return (
@@ -23,13 +28,21 @@ export function InspectionToolbar({
       )}
     >
       <div className="flex flex-wrap gap-3">
-        <Button
-          variant={basTabletOpened ? "secondary" : "default"}
-          size="sm"
-          onClick={onOpenBasTablet}
-        >
-          Open BAS Tablet
-        </Button>
+        {!basTabletOpened ? (
+          <Button size="sm" onClick={onOpenBasTablet}>
+            Open BAS Tablet
+          </Button>
+        ) : (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() =>
+              onViewChange(activeView === "ahu" ? "bas" : "ahu")
+            }
+          >
+            {activeView === "ahu" ? "Switch to BAS" : "Switch to AHU"}
+          </Button>
+        )}
         <Button
           variant="outline"
           size="sm"

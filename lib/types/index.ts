@@ -23,6 +23,12 @@ export type {
   EquipmentComponentInspection,
 } from "./inspection";
 export type {
+  BasDisplayPoint,
+  BasPointCategory,
+  BasPointSection,
+  BasViewMode,
+} from "./bas";
+export type {
   WorkOrder,
   WorkOrderObjective,
   WorkOrderPriority,
