@@ -1,7 +1,8 @@
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
-import { LANDING_HERO } from "@/lib/constants/landing";
+import { LANDING_HERO, ROUTES } from "@/lib/constants";
 
 import { Logo } from "./Logo";
 
@@ -21,10 +22,17 @@ export function HeroSection() {
           {LANDING_HERO.description}
         </p>
         <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:gap-4">
-          <Button size="lg" className="h-11 min-w-[160px] px-6 text-sm">
-            {LANDING_HERO.primaryCta}
-            <ArrowRight className="size-4" data-icon="inline-end" />
-          </Button>
+          <Button
+            size="lg"
+            className="h-11 min-w-[160px] px-6 text-sm"
+            nativeButton={false}
+            render={
+              <Link href={ROUTES.scenarios}>
+                {LANDING_HERO.primaryCta}
+                <ArrowRight className="size-4" data-icon="inline-end" />
+              </Link>
+            }
+          />
           <Button
             variant="outline"
             size="lg"

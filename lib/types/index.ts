@@ -10,8 +10,11 @@ export type {
   PointValue,
 } from "./points";
 export type {
+  ScenarioCatalogItem,
   ScenarioDefinition,
+  ScenarioDifficulty,
   ScenarioId,
+  ScenarioStatus,
   ScenarioSummary,
 } from "./scenario";
 export type { SimulationAction, SimulationState } from "./simulation";

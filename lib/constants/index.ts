@@ -6,3 +6,4 @@ export {
   LANDING_NAV_LINKS,
 } from "./landing";
 export { ROUTES } from "./routes";
+export { SCENARIO_CATALOG, SCENARIOS_PAGE } from "./scenarios";

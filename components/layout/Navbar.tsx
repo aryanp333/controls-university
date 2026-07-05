@@ -1,8 +1,9 @@
 import { ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 import { Logo } from "@/components/shared/Logo";
 import { Button } from "@/components/ui/button";
-import { LANDING_HERO, LANDING_NAV_LINKS } from "@/lib/constants/landing";
+import { LANDING_HERO, LANDING_NAV_LINKS, ROUTES } from "@/lib/constants";
 import { cn } from "@/lib/utils";
 
 interface NavbarProps {
@@ -18,7 +19,7 @@ export function Navbar({ className }: NavbarProps) {
       )}
     >
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6 md:px-10">
-        <Logo />
+        <Logo href={ROUTES.home} />
         <nav className="hidden items-center gap-8 md:flex">
           {LANDING_NAV_LINKS.map((link) => (
             <a
@@ -30,10 +31,17 @@ export function Navbar({ className }: NavbarProps) {
             </a>
           ))}
         </nav>
-        <Button size="sm" className="hidden md:inline-flex">
-          {LANDING_HERO.primaryCta}
-          <ArrowRight className="size-3.5" data-icon="inline-end" />
-        </Button>
+        <Button
+          size="sm"
+          className="hidden md:inline-flex"
+          nativeButton={false}
+          render={
+            <Link href={ROUTES.scenarios}>
+              {LANDING_HERO.primaryCta}
+              <ArrowRight className="size-3.5" data-icon="inline-end" />
+            </Link>
+          }
+        />
       </div>
     </header>
   );
